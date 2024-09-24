@@ -6,6 +6,7 @@ import TopBar from "./app/components/frameComponents/TopBar";
 import AllProducts from "./app/pages/AllProducts";
 import CategoryPage from "./config/categoryRouteConfig";
 import useThemeStore from "./store/themeStore";
+import Error from "./app/components/fallbackPages/Error";
 
 function App() {
   const { themeMode } = useThemeStore();
@@ -39,6 +40,7 @@ function App() {
                 />
               }
             />
+            <Route path="/about" element={<Error />} />
           </Routes>
         </Grid>
       </Router>
