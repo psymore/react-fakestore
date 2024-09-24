@@ -67,8 +67,7 @@ export function FilterDesktopTop({
           <img
             src="https://img.icons8.com/?size=100&id=45407&format=png&color=000000"
             style={{
-              background:
-                themeFromLocalStorage === "dark" ? "#579dff" : "#deebfe",
+              backgroundColor: theme => theme.palette.primary.light,
               height: 30,
             }}
           />

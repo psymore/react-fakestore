@@ -1,6 +1,5 @@
 // @ts-nocheck
-
-import { useTheme } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -11,15 +10,16 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { CATEGORY_TAB_PARAM_CONFIG } from "../../../config/categoryTabParamConfig";
 import useProductStore from "../../../store/productStore";
 import { customTheme } from "../../utils/nonDesktopMediaQuery";
 import TabMenuMobile from "./TabMenuMobile";
 import ThemeToggle from "./ThemeToggle";
-import { CATEGORY_TAB_PARAM_CONFIG } from "../../../config/categoryTabParamConfig";
+import TabMenuLink from "../tabMenuLink";
 
 const TabMenu = ({ categoryFromUrl, setCategoryFromUrl }) => {
-  console.log("categoryFromUrl ", categoryFromUrl);
+  const navigate = useNavigate();
 
   const theme = useTheme();
   const themeFromLocalStorage = localStorage.getItem("themePreference");
@@ -114,15 +114,7 @@ const TabMenu = ({ categoryFromUrl, setCategoryFromUrl }) => {
           )}
           {(isBrandNameVisibleDown || isBrandNameVisibleUp) && (
             <Box>
-              <Typography
-                sx={{
-                  fontSize: "16px",
-                  fontStyle: "oblique",
-                  fontFamily: "cursive",
-                  fontWeight: "700",
-                }}>
-                fakestoreapi.com
-              </Typography>
+              <TabMenuLink />
             </Box>
           )}
 
@@ -157,6 +149,15 @@ const TabMenu = ({ categoryFromUrl, setCategoryFromUrl }) => {
               ))}
             </Tabs>
           )}
+
+          <Button
+            sx={{
+              textTransform: "none",
+              mr: 4,
+            }}
+            onClick={() => navigate("about")}>
+            References
+          </Button>
 
           <Box>
             <ThemeToggle />

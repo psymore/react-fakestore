@@ -168,7 +168,7 @@ const lightTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: ({ theme }) => ({
-          border: `1px solid ${theme.palette.secondary.main}`,
+          border: `1px solid ${theme.palette.primary.main}`,
           backgroundColor: "#deebfe",
 
           color: "#000",
@@ -186,18 +186,18 @@ const lightTheme = createTheme({
 
     MuiIconButton: {
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           ":focus": {
             outline: "none",
           },
-          background: "#deebfe",
-          border: "1px solid #1976d2",
+          background: theme.palette.primary.light,
+          border: `1px solid ${theme.palette.secondary.dark}`,
           ":hover": {
             boxShadow: "0 0 12px #71baf2",
             color: "#ffa500",
             background: "#deebfe",
           },
-        },
+        }),
       },
     },
 

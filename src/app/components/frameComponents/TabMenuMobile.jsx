@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toCamelCase } from "../../utils/toCamelCase";
+import TabMenuLink from "../tabMenuLink";
 
 export default function TabMenuMobile({
   categories,
@@ -58,21 +59,14 @@ export default function TabMenuMobile({
     <Box sx={{ width: drawerWidth }}>
       <AppBar position="static" sx={{ background: "#152a3b" }}>
         <Toolbar>
-          <IconButton
-            onClick={handleDrawerToggle}
-            sx={{
-              mr: 1,
-              border: "none",
-            }}>
+          <IconButton onClick={handleDrawerToggle} sx={{ mr: 1 }}>
             <img
               src="https://img.icons8.com/?size=100&id=40217&format=png&color=000000"
               style={{ width: "20px", height: "20px" }}
               alt="menu"
             />
           </IconButton>
-          <Typography noWrap component="div">
-            fakestoreapi.com
-          </Typography>
+          <TabMenuLink />
         </Toolbar>
       </AppBar>
       <List>
