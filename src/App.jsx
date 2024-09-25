@@ -1,12 +1,13 @@
-import { CssBaseline, Grid, ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
 import { useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import TabMenu from "./app/components/frameComponents/TabMenu";
-import TopBar from "./app/components/frameComponents/TopBar";
 import AllProducts from "./app/pages/AllProducts";
+import References from "./app/pages/References";
 import CategoryPage from "./config/categoryRouteConfig";
 import useThemeStore from "./store/themeStore";
-import Error from "./app/components/fallbackPages/Error";
 
 function App() {
   const { themeMode } = useThemeStore();
@@ -40,7 +41,7 @@ function App() {
                 />
               }
             />
-            <Route path="/about" element={<Error />} />
+            <Route path="/about" element={<References />} />
           </Routes>
         </Grid>
       </Router>
