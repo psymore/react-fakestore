@@ -2,8 +2,6 @@
 import { useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
@@ -13,21 +11,19 @@ import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { cubicBezier, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { debounce } from "lodash";
+import { useCallback, useEffect, useState } from "react";
 import ControlledZoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import useProductStore from "../../../store/productStore";
 import { centerItemSx } from "../../utils/centerItemSx";
 import { customTheme } from "../../utils/nonDesktopMediaQuery";
-import DetailDialog from "./DetailDialog";
 import Error from "../fallbackPages/Error";
 import Loading from "../fallbackPages/Loading";
 import { FilterDesktopLeft } from "../filterComponents/FilterDesktopLeft";
 import { FilterDesktopTop } from "../filterComponents/FilterDesktopTop";
-import { PriceFilterMenu } from "../filterComponents/filterContent/PriceFilterMenu";
-import { RatingFilterMenu } from "../filterComponents/filterContent/RatingFilterMenu";
-import { debounce } from "lodash";
-import { useCallback } from "react";
+import MobileFilter from "../filterComponents/filterContent/MobileFilter";
+import DetailDialog from "./DetailDialog";
 
 const ProductsList = ({ products }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -97,10 +93,6 @@ const ProductsList = ({ products }) => {
     setOpenDialogProductId(null);
   };
 
-  const isBrandNameVisibleDown = useMediaQuery(
-    customTheme?.breakpoints.down("brandFlagDown")
-  );
-
   const handleDrawerToggle = useCallback(
     debounce(() => {
       setIsDrawerOpen(prevState => !prevState);
@@ -108,12 +100,8 @@ const ProductsList = ({ products }) => {
     []
   );
 
-  const drawerContent = (
-    <FilterDesktopLeft
-      handleSwitchToTopMenuFilter={handleSwitchToTopMenuFilter}
-      setFilteredProducts={setFilteredProducts}
-      products={products}
-    />
+  const isBrandNameVisibleDown = useMediaQuery(
+    customTheme?.breakpoints.down("brandFlagDown")
   );
 
   if (loading) {
@@ -149,7 +137,7 @@ const ProductsList = ({ products }) => {
                 alignContent: "center",
                 ml: 0.5,
                 color: "#579dff",
-                zIndex: 1000,
+                zIndex: 1500,
               }}>
               Filters
             </Typography>
@@ -173,41 +161,13 @@ const ProductsList = ({ products }) => {
         />
       )}
 
-      <Drawer
-        anchor="right"
-        open={isDrawerOpen}
-        onClose={handleDrawerToggle}
-        sx={{
-          display: { xs: "block", md: "none" },
-          "& .MuiDrawer-paper": {
-            width: 240,
-            padding: 2,
-          },
-        }}>
-        <Stack direction="column">
-          <Typography variant="body1" gutterBottom>
-            Price
-          </Typography>
-          <PriceFilterMenu
-            showPriceFilters={true}
-            products={products}
-            setFilteredProducts={setFilteredProducts}
-            filterType={"leftMenu"}
-          />
-
-          <Divider sx={{ mt: 2, mb: 2 }} />
-
-          <Typography variant="body1" gutterBottom>
-            Rating
-          </Typography>
-          <RatingFilterMenu
-            showRatingFilters={true}
-            products={products}
-            setFilteredProducts={setFilteredProducts}
-            filterType={"leftMenu"}
-          />
-        </Stack>
-      </Drawer>
+      <MobileFilter
+        isDrawerOpen={isDrawerOpen}
+        handleDrawerToggle={handleDrawerToggle}
+        products={products}
+        setFilteredProducts={setFilteredProducts}
+        handleSwitchToTopMenuFilter={handleSwitchToTopMenuFilter}
+      />
 
       <Grid
         item

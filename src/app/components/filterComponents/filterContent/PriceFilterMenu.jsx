@@ -4,6 +4,12 @@ import Slider from "@mui/material/Slider";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
+import useCategoryFromUrl from "../../../../config/categoryFinder";
+import {
+  getFiltersFromSessionStorage,
+  initialFilterState,
+  saveFiltersToSessionStorage,
+} from "../../../../config/initialFilterValues";
 import { centerItemSx } from "../../../utils/centerItemSx";
 
 export const PriceFilterMenu = ({
@@ -13,37 +19,49 @@ export const PriceFilterMenu = ({
   filterType,
   sx = {},
 }) => {
-  // Initialize priceRange from localStorage or use default
-  const [priceRange, setPriceRange] = useState(() => {
-    const savedRange = localStorage.getItem("priceRange");
-    return savedRange ? JSON.parse(savedRange) : [0, 1000];
-  });
+  const category = useCategoryFromUrl();
+  const [filterState, setFilterState] = useState(initialFilterState);
+  const [priceRange, setPriceRange] = useState(
+    getFiltersFromSessionStorage()?.priceRange || [0, 1000]
+  );
+  const selectedPriceRange = filterState[category]?.priceRange;
 
-  // Apply filters based on the saved price range when the component mounts
   useEffect(() => {
-    const savedRange = localStorage.getItem("priceRange");
-    if (savedRange) {
-      const parsedRange = JSON.parse(savedRange);
-      setPriceRange(parsedRange);
-
-      const filtered = products.filter(
-        product =>
-          product.price >= parsedRange[0] && product.price <= parsedRange[1]
-      );
+    if (JSON.stringify(selectedPriceRange) === JSON.stringify([0, 1000])) {
+      setFilteredProducts(products);
+    } else if (selectedPriceRange) {
+      const filtered = products
+        .filter(
+          product =>
+            product.price >= selectedPriceRange[0] &&
+            product.price <= selectedPriceRange[1]
+        )
+        .sort((a, b) => a.price - b.price);
       setFilteredProducts(filtered);
     }
-  }, [products, setFilteredProducts]);
+  }, [selectedPriceRange, products, setFilteredProducts]);
 
-  // Function to handle price change
-  const handlePriceChange = (event, newValue) => {
-    setPriceRange(newValue);
-    localStorage.setItem("priceRange", JSON.stringify(newValue));
+  useEffect(() => {
+    const savedFilters = getFiltersFromSessionStorage(category);
+    setFilterState(prev => ({
+      ...prev,
+      [category]: savedFilters,
+    }));
+  }, [category]);
 
-    // Filter products based on the price range
-    const filtered = products.filter(
-      product => product.price >= newValue[0] && product.price <= newValue[1]
-    );
-    setFilteredProducts(filtered);
+  useEffect(() => {
+    saveFiltersToSessionStorage(category, filterState[category]);
+  }, [filterState, category]);
+
+  const handlePriceChange = (event, newPriceRange) => {
+    setPriceRange(newPriceRange);
+    setFilterState(prev => ({
+      ...prev,
+      [category]: {
+        ...prev[category],
+        priceRange: newPriceRange,
+      },
+    }));
   };
 
   let DIRECTION;

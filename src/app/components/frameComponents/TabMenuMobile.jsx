@@ -6,7 +6,6 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toCamelCase } from "../../utils/toCamelCase";
@@ -24,7 +23,7 @@ export default function TabMenuMobile({
   const drawerWidth = 240;
 
   // Prepare categories with "All Products" as the first option
-  const prepareCategories = () => ["", ...categories];
+  const prepareCategories = () => ["all products", ...categories];
 
   // Ensure the `tabValue` is updated when `categoryFromUrl` changes
   useEffect(() => {
@@ -44,7 +43,7 @@ export default function TabMenuMobile({
     const preparedCategories = prepareCategories();
 
     if (newValue === 0) {
-      setCategoryFromUrl("");
+      setCategoryFromUrl("all products");
     } else {
       const selectedCategory = preparedCategories[newValue];
       setCategoryFromUrl(selectedCategory);
@@ -111,12 +110,13 @@ export default function TabMenuMobile({
   );
 
   return (
-    <Box sx={{ display: { xs: "block", sm: "none" } }}>
+    <Box>
       <Drawer
         anchor="left"
         open={isDrawerOpen}
         onClose={handleDrawerToggle}
         sx={{
+          zIndex: 1501,
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             background: theme => theme.palette.background.default,

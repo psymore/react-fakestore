@@ -4,8 +4,14 @@ import Grow from "@mui/material/Grow";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNonDesktop } from "../../../utils/nonDesktopMediaQuery";
+import {
+  getFiltersFromSessionStorage,
+  initialFilterState,
+  saveFiltersToSessionStorage,
+} from "../../../../config/initialFilterValues";
+import useCategoryFromUrl from "../../../../config/categoryFinder";
 
 export const RatingFilterMenu = ({
   showRatingFilters,
@@ -13,20 +19,60 @@ export const RatingFilterMenu = ({
   setFilteredProducts,
   filterType,
 }) => {
-  const [selectedRating, setSelectedRating] = useState(null);
+  const [filterState, setFilterState] = useState(initialFilterState);
+
+  const category = useCategoryFromUrl();
+  const selectedRating = filterState[category]?.selectedRating;
+
+  // Load filters from localStorage on mount
+  useEffect(() => {
+    const savedFilters = getFiltersFromSessionStorage(category);
+    setFilterState(prev => ({
+      ...prev,
+      [category]: savedFilters,
+    }));
+  }, [category]);
+
+  // Save filters to localStorage whenever filterState changes
+  useEffect(() => {
+    saveFiltersToSessionStorage(category, filterState[category]);
+  }, [filterState, category]);
+
+  const handleRatingChange = newRating => {
+    // Update the filterState for the current category
+    setFilterState(prev => ({
+      ...prev,
+      [category]: {
+        ...prev[category],
+        selectedRating: newRating,
+      },
+    }));
+  };
 
   const handleRatingClick = rating => {
     if (selectedRating === rating) {
-      setSelectedRating(null);
+      handleRatingChange(null);
       setFilteredProducts(products);
     } else {
-      setSelectedRating(rating);
+      handleRatingChange(rating);
       const filtered = products
         .filter(product => product.rating.rate <= rating)
         .sort((a, b) => b.rating.rate - a.rating.rate);
       setFilteredProducts(filtered);
     }
   };
+
+  useEffect(() => {
+    if (selectedRating === null) {
+      setFilteredProducts(products);
+    }
+    if (selectedRating !== null) {
+      const filtered = products
+        .filter(product => product.rating.rate <= selectedRating)
+        .sort((a, b) => b.rating.rate - a.rating.rate);
+      setFilteredProducts(filtered);
+    }
+  }, [selectedRating, products, setFilteredProducts]);
 
   const isNonDesktop = useNonDesktop();
   let DIRECTION = "column";

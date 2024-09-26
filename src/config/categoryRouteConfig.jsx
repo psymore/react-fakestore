@@ -1,16 +1,13 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import AllProducts from "../app/pages/AllProducts";
 import Electronics from "../app/pages/Electronics";
 import Jewelry from "../app/pages/Jewelry";
 import MenClothing from "../app/pages/MenClothing";
 import WomenClothing from "../app/pages/WomenClothing";
+import useCategoryFromUrl from "./categoryFinder";
 
 const CategoryPage = ({ categoryFromUrl, setCategoryFromUrl }) => {
-  const { category } = useParams();
-
-  console.log("categoryFromUrl ", categoryFromUrl);
-  console.log("category ", category);
+  const category = useCategoryFromUrl();
 
   useEffect(() => {
     setCategoryFromUrl(category);
