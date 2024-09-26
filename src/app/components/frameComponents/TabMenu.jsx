@@ -7,16 +7,15 @@ import IconButton from "@mui/material/IconButton";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CATEGORY_TAB_PARAM_CONFIG } from "../../../config/categoryTabParamConfig";
 import useProductStore from "../../../store/productStore";
-import { customTheme } from "../../utils/nonDesktopMediaQuery";
+import { customTheme } from "../../utils/customThemeBreakpoints";
+import TabMenuLink from "../tabMenuLink";
 import TabMenuMobile from "./TabMenuMobile";
 import ThemeToggle from "./ThemeToggle";
-import TabMenuLink from "../tabMenuLink";
 
 const TabMenu = ({ categoryFromUrl, setCategoryFromUrl }) => {
   const navigate = useNavigate();
@@ -50,7 +49,7 @@ const TabMenu = ({ categoryFromUrl, setCategoryFromUrl }) => {
 
     // Find the index of the categoryFromUrl in the preparedCategories array
     const newTabValue = preparedCategories.findIndex(
-      category => category === categoryFromUrl
+      (category) => category === categoryFromUrl
     );
 
     // Apply the tab value based on the URL or set the default tab
@@ -79,7 +78,7 @@ const TabMenu = ({ categoryFromUrl, setCategoryFromUrl }) => {
   };
 
   const handleDrawerToggle = () => {
-    setIsDrawerOpen(prev => !prev);
+    setIsDrawerOpen((prev) => !prev);
   };
 
   return (
@@ -104,7 +103,8 @@ const TabMenu = ({ categoryFromUrl, setCategoryFromUrl }) => {
               sx={{
                 width: "35px",
                 height: "35px",
-              }}>
+              }}
+            >
               <img
                 src="https://img.icons8.com/?size=100&id=8113&format=png&color=000000"
                 alt="menu"
@@ -128,7 +128,8 @@ const TabMenu = ({ categoryFromUrl, setCategoryFromUrl }) => {
                 justifyContent: "center",
                 border: "none",
                 ml: 4,
-              }}>
+              }}
+            >
               {prepareCategories()?.map((category, i) => (
                 <Tab
                   key={i}
@@ -155,7 +156,8 @@ const TabMenu = ({ categoryFromUrl, setCategoryFromUrl }) => {
               textTransform: "none",
               mr: 4,
             }}
-            onClick={() => navigate("about")}>
+            onClick={() => navigate("about")}
+          >
             References
           </Button>
 

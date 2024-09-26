@@ -12,16 +12,14 @@ export function FilterDesktopTop({
   handleSwitchToLeftMenuFilter,
   FILTER_ALIGN,
 }) {
-  const themeFromLocalStorage = localStorage.getItem("themePreference");
-
   const [showPriceFilters, setShowPriceFilter] = useState(false);
   const [showRatingFilters, setShowRatingFilter] = useState(false);
   const handleTogglePriceFilter = () => {
-    setShowPriceFilter(prev => !prev);
+    setShowPriceFilter((prev) => !prev);
   };
 
   const handleToggleRatingFilter = () => {
-    setShowRatingFilter(prev => !prev);
+    setShowRatingFilter((prev) => !prev);
   };
 
   return (
@@ -33,11 +31,13 @@ export function FilterDesktopTop({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-      }}>
+      }}
+    >
       <Stack
         spacing={2}
         // @ts-ignore
-        direction={FILTER_ALIGN}>
+        direction={FILTER_ALIGN}
+      >
         <Button sx={{ maxWidth: 2 }} onClick={handleTogglePriceFilter}>
           Price
         </Button>
@@ -63,11 +63,12 @@ export function FilterDesktopTop({
         <IconButton
           aria-label="delete"
           sx={{ height: 50, width: 50, mb: 5 }}
-          onClick={handleSwitchToLeftMenuFilter}>
+          onClick={handleSwitchToLeftMenuFilter}
+        >
           <img
             src="https://img.icons8.com/?size=100&id=45407&format=png&color=000000"
             style={{
-              backgroundColor: theme => theme.palette.primary.light,
+              backgroundColor: (theme) => theme.palette.primary.light,
               height: 30,
             }}
           />

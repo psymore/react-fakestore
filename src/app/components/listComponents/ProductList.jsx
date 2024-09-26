@@ -17,12 +17,14 @@ import ControlledZoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import useProductStore from "../../../store/productStore";
 import { centerItemSx } from "../../utils/centerItemSx";
-import { customTheme } from "../../utils/nonDesktopMediaQuery";
+import { customTheme } from "../../utils/customThemeBreakpoints";
 import Error from "../fallbackPages/Error";
 import Loading from "../fallbackPages/Loading";
 import { FilterDesktopLeft } from "../filterComponents/FilterDesktopLeft";
 import { FilterDesktopTop } from "../filterComponents/FilterDesktopTop";
 import MobileFilter from "../filterComponents/filterContent/MobileFilter";
+import { PriceFilterMenu } from "../filterComponents/filterContent/PriceFilterMenu";
+import { RatingFilterMenu } from "../filterComponents/filterContent/RatingFilterMenu";
 import DetailDialog from "./DetailDialog";
 
 const ProductsList = ({ products }) => {
@@ -33,7 +35,7 @@ const ProductsList = ({ products }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const theme = useTheme();
-  const nonDesktop = useMediaQuery(theme.breakpoints.down("lg"));
+  const nonDesktop = useMediaQuery(theme.breakpoints.down("xl"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   let FILTER_ALIGN = "row";
@@ -76,7 +78,7 @@ const ProductsList = ({ products }) => {
 
   const fadeInVariants = {
     hidden: { opacity: 0 },
-    visible: i => ({
+    visible: (i) => ({
       opacity: 1,
       transition: {
         delay: i * 0.15, // Delay the fade-in of each item
@@ -85,7 +87,7 @@ const ProductsList = ({ products }) => {
     }),
   };
 
-  const handleDetailDialogOpen = productId => {
+  const handleDetailDialogOpen = (productId) => {
     setOpenDialogProductId(productId);
   };
 
@@ -95,7 +97,7 @@ const ProductsList = ({ products }) => {
 
   const handleDrawerToggle = useCallback(
     debounce(() => {
-      setIsDrawerOpen(prevState => !prevState);
+      setIsDrawerOpen((prevState) => !prevState);
     }, 0),
     []
   );
@@ -121,7 +123,8 @@ const ProductsList = ({ products }) => {
             sx={{
               width: "35px",
               height: "35px",
-            }}>
+            }}
+          >
             <img
               src="https://img.icons8.com/?size=100&id=C65Ijuh6Ctvc&format=png&color=000000"
               alt="menu"
@@ -130,7 +133,8 @@ const ProductsList = ({ products }) => {
           </IconButton>
           <Box
             sx={{ display: "flex", alignItems: "center" }}
-            onClick={handleDrawerToggle}>
+            onClick={handleDrawerToggle}
+          >
             <Typography
               sx={{
                 cursor: "pointer",
@@ -138,7 +142,8 @@ const ProductsList = ({ products }) => {
                 ml: 0.5,
                 color: "#579dff",
                 zIndex: 1500,
-              }}>
+              }}
+            >
               Filters
             </Typography>
           </Box>
@@ -176,7 +181,8 @@ const ProductsList = ({ products }) => {
         md={leftMenuFilter ? 9 : 12}
         lg={leftMenuFilter ? 10 : 12}
         xl={leftMenuFilter ? 10 : 12}
-        sx={{ display: "flex" }}>
+        sx={{ display: "flex" }}
+      >
         <Grid container spacing={6} mb={6} padding={4}>
           {filteredProducts.map((product, index) => (
             <Grid
@@ -190,14 +196,16 @@ const ProductsList = ({ products }) => {
               sx={{
                 display: "flex",
                 justifyContent: "center",
-              }}>
+              }}
+            >
               <motion.div
                 custom={index}
                 initial="hidden"
                 animate="visible"
                 variants={fadeInVariants}
                 whileHover="hover"
-                style={{ display: "flex", flex: 1 }}>
+                style={{ display: "flex", flex: 1 }}
+              >
                 <Paper
                   sx={{
                     background: "absolute",
@@ -213,16 +221,19 @@ const ProductsList = ({ products }) => {
                     ":hover": {
                       boxShadow: "0 0 12px #71baf2",
                     },
-                  }}>
+                  }}
+                >
                   <Stack
                     sx={{
                       display: "flex",
                       justifyContent: "space-evenly",
                       alignItems: "center",
-                    }}>
+                    }}
+                  >
                     <ControlledZoom
                       // @ts-ignore
-                      transitionDuration={0}>
+                      transitionDuration={0}
+                    >
                       <img
                         src={product.image}
                         className="logo"
@@ -250,7 +261,8 @@ const ProductsList = ({ products }) => {
                           variant="body2"
                           component="div"
                           display={"flex"}
-                          alignItems={"center"}>
+                          alignItems={"center"}
+                        >
                           Rating:
                         </Typography>
                         <Rating
@@ -275,12 +287,14 @@ const ProductsList = ({ products }) => {
                       display: "flex",
                       justifyContent: "right",
                       alignItems: "flex-end",
-                    }}>
+                    }}
+                  >
                     <Button
                       sx={{ textTransform: "none", fontSize: "1rem" }}
                       onClick={() => {
                         handleDetailDialogOpen(product.id);
-                      }}>
+                      }}
+                    >
                       Details
                     </Button>
 
