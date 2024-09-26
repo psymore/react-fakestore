@@ -13,8 +13,8 @@ const customBreakpoints = {
   lg: 1280,
   xl: 1536,
 
-  brandFlagDown: 965,
-  brandFlagUp: 1110,
+  brandFlagDown: 1090,
+  brandFlagUp: 1230,
 
   tablet: 768,
   desktop: 1120,

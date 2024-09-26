@@ -41,7 +41,7 @@ const TabMenu = ({ categoryFromUrl, setCategoryFromUrl }) => {
   }, [fetchCategories]);
 
   // Prepare categories by adding "All Products" as the first tab.
-  const prepareCategories = () => ["", ...categories];
+  const prepareCategories = () => ["all products", ...categories];
 
   // Update tabValue based on the current categoryFromUrl
   // This part is mainly for preventing the tabValue error for the non-existing category value.
@@ -57,7 +57,7 @@ const TabMenu = ({ categoryFromUrl, setCategoryFromUrl }) => {
     if (newTabValue !== -1) {
       // If the categoryFromUrl is found in preparedCategories, set the tabValue to the corresponding index
       setTabValue(newTabValue);
-    } else if (categoryFromUrl === "") {
+    } else if (categoryFromUrl === "all products") {
       // If no category is provided in the URL, set the default tab
       setTabValue(CATEGORY_TAB_PARAM_CONFIG.default); // Set to default tab (e.g., "All Products")
     } else {
@@ -70,7 +70,7 @@ const TabMenu = ({ categoryFromUrl, setCategoryFromUrl }) => {
     const preparedCategories = prepareCategories();
 
     if (newValue === 0) {
-      setCategoryFromUrl("");
+      setCategoryFromUrl("all products");
     } else {
       const selectedCategory = preparedCategories[newValue];
       setCategoryFromUrl(selectedCategory);
