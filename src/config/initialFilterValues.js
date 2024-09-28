@@ -9,15 +9,23 @@ export const initialFilterState = {
   "women's clothing": { priceRange: [0, 1000], selectedRating: null },
 };
 
+export const initializeFilterState = () => {
+  sessionStorage.setItem("filterState", JSON.stringify(initialFilterState));
+};
+
 export const saveFiltersToSessionStorage = (category, filters) => {
   const storedFilters = JSON.parse(sessionStorage.getItem("filterState")) || {};
   storedFilters[category] = filters;
   sessionStorage.setItem("filterState", JSON.stringify(storedFilters));
 };
 
-export const getFiltersFromSessionStorage = category => {
+export const checkFiltersFromSessionStorage = () => {
+  if (!sessionStorage.getItem("filterState")) {
+    return true
+  }
+};
+
+export const getFilterCategoryFromSessionStorage = (category) => {
   const storedFilters = JSON.parse(sessionStorage.getItem("filterState")) || {};
-  return (
-    storedFilters[category] || { priceRange: [0, 1000], selectedRating: null }
-  );
+  return storedFilters[category];
 };

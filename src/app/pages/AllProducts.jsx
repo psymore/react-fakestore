@@ -1,15 +1,22 @@
 import { useEffect } from "react";
+import useFilterStore from "../../store/filterStore";
 import useProductStore from "../../store/productStore";
 import ProductList from "../components/listComponents/ProductList";
+import { applyFilter } from "../utils/applyFilter";
 
-function AllProducts() {
+const Electronics = () => {
   const { products, fetchAllProducts } = useProductStore();
+  const { filters } = useFilterStore(); // Get filters from Zustand
+
+  const allProductsFilter = filters["all products"];
 
   useEffect(() => {
     fetchAllProducts();
   }, []);
 
-  return <ProductList products={products} />;
-}
+  const filteredProducts = applyFilter(products, allProductsFilter);
 
-export default AllProducts;
+  return <ProductList products={filteredProducts} />;
+};
+
+export default Electronics;
