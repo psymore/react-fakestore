@@ -1,4 +1,4 @@
-# Fakestore E-commerce Project
+# [Fakestore](https://fakestoreapi.com) E-commerce Project
 
 Created with Vite + React.
 
