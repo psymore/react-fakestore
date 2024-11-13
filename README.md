@@ -11,7 +11,7 @@ Created with Vite + React.
 
 ## About the Project
 
-This is an e-commerce application built using React, Zustand for state management, and the Fakestore API for fetching product data. The project implements a fully functional shopping platform where users can filter products by categories, price range, and rating. The front end is built using modern web development technologies and designed for both desktop and mobile devices.
+This is an e-commerce application built using React, Zustand for state management, and the Fakestore API for fetching product data. The project implements a broadly featured product listing platform where users can filter products by categories, price range, and rating. The front-end is built using modern web development technologies and designed to be responsive for both desktop and mobile devices.
 
 ## Features
 
